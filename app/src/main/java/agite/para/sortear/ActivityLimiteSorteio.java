@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,26 +17,29 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
 
     private TextView textViewMensagem;
     private SeekBar seekBar;
-    private Button buttonOk;
+    private TextView textViewOk;
 
     private int valorLimite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_limite_sorteio);
 
         textViewMensagem = (TextView) findViewById(R.id.textViewMensagem);
+        textViewOk = (TextView) findViewById(R.id.textViewOk);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-        buttonOk = (Button) findViewById(R.id.buttonOk);
 
         seekBar.setOnSeekBarChangeListener(this);
-        buttonOk.setOnClickListener(this);
+        textViewOk.setOnClickListener(this);
 
         textViewMensagem.setText(getString(R.string.sortear_um_numero_entre) + " " + 50);
+        seekBar.setProgress(50);
     }
 
     @Override
@@ -59,9 +61,9 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.buttonOk:
+            case R.id.textViewOk:
                 if (valorLimite <= 0) {
-                    Toast.makeText(this, "Por favor, escolha um valor igual ou maior que 1.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.alerta), Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(this, ActivitySorteio.class);
                     intent.putExtra("valorLimite", valorLimite);

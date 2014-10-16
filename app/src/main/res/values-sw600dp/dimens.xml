@@ -1,4 +1,6 @@
 <resources>
     <dimen name="margin">16dp</dimen>
+    <dimen name="marginElementos">40dp</dimen>
     <dimen name="textView">65sp</dimen>
+    <dimen name="textViewResult">120sp</dimen>
 </resources>

@@ -4,5 +4,6 @@
     <string name="app_name">Agite para Sortear</string>
     <string name="sortear_um_numero_entre">Sortear um número entre 0 e</string>
     <string name="agite_para_sortear">Agite para sortear!</string>
+    <string name="alerta">Por favor, escolha um valor igual ou maior que 1.</string>
 
 </resources>
