@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Agite para Sortear</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="sortear_um_numero_entre">Sortear um número entre 0 e</string>
 
 </resources>

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.Random;
 
 
-public class ActivitySorteio extends Activity implements OnShakeListener {
+public class ActivitySorteio extends Activity implements IShakeListener {
 
     private TextView textViewResultado;
     private int valorLimite;
@@ -29,7 +29,7 @@ public class ActivitySorteio extends Activity implements OnShakeListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sorteio);
 
         valorLimite = getIntent().getIntExtra("valorLimite", 1);
         textViewResultado = (TextView) findViewById(R.id.textViewResultado);
@@ -38,26 +38,6 @@ public class ActivitySorteio extends Activity implements OnShakeListener {
         acelerometro = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         shakeDetector = new ShakeDetector();
         shakeDetector.setOnShakeListener(this);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

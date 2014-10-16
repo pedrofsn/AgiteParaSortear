@@ -16,9 +16,11 @@ import android.widget.Toast;
  */
 public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
 
-    private TextView textViewValorLimite;
+    private TextView textViewMensagem;
     private SeekBar seekBar;
     private Button buttonOk;
+
+    private int valorLimite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,17 +30,20 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_limite_sorteio);
 
-        textViewValorLimite = (TextView) findViewById(R.id.textViewValorLimite);
+        textViewMensagem = (TextView) findViewById(R.id.textViewMensagem);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         buttonOk = (Button) findViewById(R.id.buttonOk);
 
         seekBar.setOnSeekBarChangeListener(this);
         buttonOk.setOnClickListener(this);
+
+        textViewMensagem.setText(getString(R.string.sortear_um_numero_entre) + " " + 50);
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-        textViewValorLimite.setText(String.valueOf(progress));
+        valorLimite = progress;
+        textViewMensagem.setText(getString(R.string.sortear_um_numero_entre) + " " + valorLimite);
     }
 
     @Override
@@ -55,8 +60,6 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonOk:
-                int valorLimite = Integer.valueOf(textViewValorLimite.getText().toString());
-
                 if (valorLimite <= 0) {
                     Toast.makeText(this, "Por favor, escolha um valor igual ou maior que 1.", Toast.LENGTH_SHORT).show();
                 } else {
