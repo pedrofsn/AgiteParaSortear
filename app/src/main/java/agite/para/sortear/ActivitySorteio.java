@@ -5,6 +5,7 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -20,6 +21,8 @@ public class ActivitySorteio extends Activity implements IShakeListener {
     private SensorManager mSensorManager;
     private Sensor acelerometro;
     private ShakeDetector shakeDetector;
+
+    private Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +41,16 @@ public class ActivitySorteio extends Activity implements IShakeListener {
         acelerometro = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         shakeDetector = new ShakeDetector();
         shakeDetector.setOnShakeListener(this);
+
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @Override
     public void onShake(int countShakes) {
-        textViewResultado.setText(String.valueOf(new Random().nextInt((valorLimite - 0) + 1) + 0));
+        if (vibrator.hasVibrator()) {
+            vibrator.vibrate(400);
+            textViewResultado.setText(String.valueOf(new Random().nextInt(valorLimite + 1)));
+        }
     }
 
     @Override
