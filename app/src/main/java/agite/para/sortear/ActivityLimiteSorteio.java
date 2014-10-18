@@ -25,6 +25,8 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getWindow().getAttributes().windowAnimations = R.style.AnimationFade;
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -68,6 +70,7 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
                     Intent intent = new Intent(this, ActivitySorteio.class);
                     intent.putExtra("valorLimite", valorLimite);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
                 break;
         }
