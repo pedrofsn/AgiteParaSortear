@@ -3,7 +3,7 @@
     android:id="@+id/relativeLayoutBackground"
     android:layout_width="match_parent"
     android:padding="@dimen/margin"
-    android:background="@color/background_activity_sorteio"
+    android:background="@color/background_activity_sorteio_start"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/margin"
     tools:context=".ActivityMain">
