@@ -25,13 +25,9 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().getAttributes().windowAnimations = R.style.AnimationFade;
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_limite_sorteio);
+
+        getWindow().getAttributes().windowAnimations = R.style.AnimationFade;
 
         textViewMensagem = (TextView) findViewById(R.id.textViewMensagem);
         textViewOk = (TextView) findViewById(R.id.textViewOk);
