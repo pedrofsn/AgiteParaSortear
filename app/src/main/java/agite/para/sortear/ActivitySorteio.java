@@ -6,8 +6,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -16,6 +14,7 @@ import java.util.Random;
 public class ActivitySorteio extends Activity implements IShakeListener {
 
     private TextView textViewResultado;
+
     private int valorLimite;
 
     private SensorManager mSensorManager;
