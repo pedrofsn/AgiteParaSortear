@@ -1,18 +1,12 @@
 package agite.para.sortear;
 
-/**
- * Created by pedro.sousa on 15/10/2014.
- */
-
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.FloatMath;
 
+// Reference: http://jasonmcreynolds.com/?p=388
 public class ShakeDetector implements SensorEventListener {
-
-    // Fonte: http://jasonmcreynolds.com/?p=388
 
     /*
      * The gForce that is necessary to register as shake.
@@ -51,7 +45,7 @@ public class ShakeDetector implements SensorEventListener {
             float gZ = z / SensorManager.GRAVITY_EARTH;
 
             // gForce will be close to 1 when there is no movement.
-            float gForce = FloatMath.sqrt(gX * gX + gY * gY + gZ * gZ);
+            double gForce = Math.sqrt(gX * gX + gY * gY + gZ * gZ);
 
             if (gForce > SHAKE_THRESHOLD_GRAVITY) {
                 final long now = System.currentTimeMillis();
