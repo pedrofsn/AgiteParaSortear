@@ -8,9 +8,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * Created by pedro.sousa on 14/10/2014.
- */
 public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
 
     private TextView textViewMensagem;
@@ -22,7 +19,6 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_limite_sorteio);
 
         getWindow().getAttributes().windowAnimations = R.style.AnimationFade;
@@ -30,18 +26,28 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
         textViewMensagem = (TextView) findViewById(R.id.textViewMensagem);
         textViewOk = (TextView) findViewById(R.id.textViewOk);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         seekBar.setOnSeekBarChangeListener(this);
         textViewOk.setOnClickListener(this);
-
-        textViewMensagem.setText(getString(R.string.sortear_um_numero_entre) + " " + 50);
+        textViewMensagem.setText(String.format(getString(R.string.sortear_um_numero_entre), 50));
         seekBar.setProgress(50);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        seekBar.setOnSeekBarChangeListener(null);
+        textViewOk.setOnClickListener(null);
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
         valorLimite = progress;
-        textViewMensagem.setText(getString(R.string.sortear_um_numero_entre) + " " + valorLimite);
+        textViewMensagem.setText(String.format(getString(R.string.sortear_um_numero_entre), valorLimite));
     }
 
     @Override

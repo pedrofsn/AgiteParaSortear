@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Random;
-
 
 public class ActivitySorteio extends Activity implements IShakeListener {
 
@@ -34,7 +34,11 @@ public class ActivitySorteio extends Activity implements IShakeListener {
 
         relativeLayoutBackground = (RelativeLayout) findViewById(R.id.relativeLayoutBackground);
         textViewResultado = (TextView) findViewById(R.id.textViewResultado);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         acelerometro = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         shakeDetector = new ShakeDetector();
@@ -44,13 +48,20 @@ public class ActivitySorteio extends Activity implements IShakeListener {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        shakeDetector.setOnShakeListener(this);
+    }
+
+    @Override
     public void onShake(int countShakes) {
         relativeLayoutBackground.setBackgroundResource(R.color.background_activity_sorteio_in_progress);
 
-        if (vibrator.hasVibrator()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && vibrator.hasVibrator()) {
             vibrator.vibrate(400);
-            textViewResultado.setText(String.valueOf(new Random().nextInt(valorLimite + 1)));
         }
+
+        textViewResultado.setText(String.valueOf(new Random().nextInt(valorLimite + 1)));
     }
 
     @Override

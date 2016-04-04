@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="@dimen/margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/background_activity_limite_sorteio"
     android:gravity="center"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:padding="@dimen/margin">
 
     <TextView
+        android:id="@+id/textViewMensagem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:textColor="@android:color/white"
-        android:gravity="center"
-        android:id="@+id/textViewMensagem"
+        android:layout_gravity="center_horizontal"
         android:fontFamily="sans-serif-light"
-        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/textView"
-        android:layout_gravity="center_horizontal" />
+        android:textStyle="bold" />
 
     <SeekBar
-        android:layout_marginTop="@dimen/marginElementos"
-        android:layout_below="@+id/textViewMensagem"
+        android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
-        android:progressDrawable="@drawable/progress"
-        android:thumb="@drawable/thumb"
+        android:layout_below="@+id/textViewMensagem"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/marginElementos"
         android:max="300"
-        android:layout_gravity="center_horizontal" />
+        android:progressDrawable="@drawable/progress"
+        android:thumb="@drawable/thumb" />
 
     <TextView
-        android:layout_marginTop="@dimen/marginElementos"
-        android:layout_below="@+id/seekBar"
+        android:id="@+id/textViewOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewOk"
-        android:paddingLeft="10dp"
-        android:padding="10dp"
-        android:textColor="@android:color/white"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/seekBar"
+        android:layout_marginTop="@dimen/marginElementos"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:textSize="@dimen/textView"
-        android:layout_alignParentRight="true"
-        android:text="@android:string/ok" />
+        android:padding="10dp"
+        android:paddingLeft="10dp"
+        android:text="@android:string/ok"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/textView" />
 </RelativeLayout>
