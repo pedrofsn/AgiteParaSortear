@@ -8,13 +8,13 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
+public class SetupActivity extends Activity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
 
-    private TextView textViewMensagem;
+    private TextView textViewMessage;
     private SeekBar seekBar;
     private TextView textViewOk;
 
-    private int valorLimite;
+    private int maxValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
 
         getWindow().getAttributes().windowAnimations = R.style.AnimationFade;
 
-        textViewMensagem = (TextView) findViewById(R.id.textViewMensagem);
+        textViewMessage = (TextView) findViewById(R.id.textViewMessage);
         textViewOk = (TextView) findViewById(R.id.textViewOk);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
     }
@@ -33,7 +33,11 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
         super.onStart();
         seekBar.setOnSeekBarChangeListener(this);
         textViewOk.setOnClickListener(this);
-        textViewMensagem.setText(String.format(getString(R.string.sortear_um_numero_entre), 50));
+        firstCase();
+    }
+
+    private void firstCase() {
+        textViewMessage.setText(String.format(getString(R.string.sortear_um_numero_entre), 50));
         seekBar.setProgress(50);
     }
 
@@ -46,8 +50,8 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-        valorLimite = progress;
-        textViewMensagem.setText(String.format(getString(R.string.sortear_um_numero_entre), valorLimite));
+        maxValue = progress;
+        textViewMessage.setText(String.format(getString(R.string.sortear_um_numero_entre), maxValue));
     }
 
     @Override
@@ -64,11 +68,11 @@ public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBar
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.textViewOk:
-                if (valorLimite <= 0) {
+                if (maxValue <= 0) {
                     Toast.makeText(this, getString(R.string.alerta), Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent intent = new Intent(this, ActivitySorteio.class);
-                    intent.putExtra("valorLimite", valorLimite);
+                    Intent intent = new Intent(this, RaffleActivity.class);
+                    intent.putExtra(App.TAG_VALOR_LIMITE, maxValue);
                     startActivity(intent);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }

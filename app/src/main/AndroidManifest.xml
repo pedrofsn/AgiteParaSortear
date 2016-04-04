@@ -9,12 +9,13 @@
         android:required="true" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ActivityLimiteSorteio"
+            android:name=".SetupActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -24,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ActivitySorteio"
+            android:name=".RaffleActivity"
             android:screenOrientation="portrait" />
     </application>
 

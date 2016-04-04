@@ -6,10 +6,10 @@
     android:background="@color/background_activity_sorteio_start"
     android:padding="@dimen/margin"
     android:paddingLeft="@dimen/margin"
-    tools:context=".ActivitySorteio">
+    tools:context=".RaffleActivity">
 
     <TextView
-        android:id="@+id/textViewResultado"
+        android:id="@+id/textViewResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

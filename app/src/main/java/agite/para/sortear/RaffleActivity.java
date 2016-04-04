@@ -12,15 +12,15 @@ import android.widget.TextView;
 
 import java.util.Random;
 
-public class ActivitySorteio extends Activity implements IShakeListener {
+public class RaffleActivity extends Activity implements ShakeDetector.ShakeListener {
 
     private RelativeLayout relativeLayoutBackground;
-    private TextView textViewResultado;
+    private TextView textViewResult;
 
-    private int valorLimite;
+    private int maxValue;
 
     private SensorManager mSensorManager;
-    private Sensor acelerometro;
+    private Sensor accelerometer;
     private ShakeDetector shakeDetector;
 
     private Vibrator vibrator;
@@ -30,17 +30,17 @@ public class ActivitySorteio extends Activity implements IShakeListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sorteio);
 
-        valorLimite = getIntent().getIntExtra("valorLimite", 1);
+        maxValue = getIntent().getIntExtra(App.TAG_VALOR_LIMITE, 1);
 
         relativeLayoutBackground = (RelativeLayout) findViewById(R.id.relativeLayoutBackground);
-        textViewResultado = (TextView) findViewById(R.id.textViewResultado);
+        textViewResult = (TextView) findViewById(R.id.textViewResult);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        acelerometro = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         shakeDetector = new ShakeDetector();
         shakeDetector.setOnShakeListener(this);
 
@@ -61,13 +61,13 @@ public class ActivitySorteio extends Activity implements IShakeListener {
             vibrator.vibrate(400);
         }
 
-        textViewResultado.setText(String.valueOf(new Random().nextInt(valorLimite + 1)));
+        textViewResult.setText(String.valueOf(new Random().nextInt(maxValue + 1)));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(shakeDetector, acelerometro, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(shakeDetector, accelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override

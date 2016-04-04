@@ -8,7 +8,7 @@
     android:padding="@dimen/margin">
 
     <TextView
-        android:id="@+id/textViewMensagem"
+        android:id="@+id/textViewMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -23,7 +23,7 @@
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewMensagem"
+        android:layout_below="@+id/textViewMessage"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/marginElementos"
         android:max="300"

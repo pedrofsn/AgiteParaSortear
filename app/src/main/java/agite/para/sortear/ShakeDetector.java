@@ -19,11 +19,11 @@ public class ShakeDetector implements SensorEventListener {
     private static final int SHAKE_SLOP_TIME_MS = 500;
     private static final int SHAKE_COUNT_RESET_TIME_MS = 3000;
 
-    private IShakeListener mListener;
+    private ShakeListener mListener;
     private long mShakeTimestamp;
     private int mShakeCount;
 
-    public void setOnShakeListener(IShakeListener listener) {
+    public void setOnShakeListener(ShakeListener listener) {
         this.mListener = listener;
     }
 
@@ -66,4 +66,9 @@ public class ShakeDetector implements SensorEventListener {
             }
         }
     }
+
+    public interface ShakeListener {
+        void onShake(int countShakes);
+    }
+
 }
