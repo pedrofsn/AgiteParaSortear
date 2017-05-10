@@ -57,7 +57,7 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
     public void onShake(int countShakes) {
         relativeLayoutBackground.setBackgroundResource(R.color.background_activity_sorteio_in_progress);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && vibrator.hasVibrator()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && vibrator != null && vibrator.hasVibrator()) {
             vibrator.vibrate(400);
         }
 
