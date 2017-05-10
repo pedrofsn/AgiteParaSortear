@@ -2,8 +2,15 @@
 <resources>
 
     <string name="app_name">Shake Raffle</string>
-    <string name="sortear_um_numero_entre" formated="true">Randomly select a number between 0 and %d</string>
+    <string name="sortear_um_numero_entre">Randomly select a number between 0 and %d</string>
+    <string name="sortear_entre_x_e_y" formatted="false">Randomly between %d and %d</string>
     <string name="agite_para_sortear">Shake Raffle!</string>
     <string name="alerta">Please select a value equal to or greater than 1.</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="and">and</string>
+    <string name="or">Or</string>
+    <string name="limites_inclusos">Bounds included</string>
+    <string name="limites_nao_inclusos">Bounds not included</string>
 
 </resources>

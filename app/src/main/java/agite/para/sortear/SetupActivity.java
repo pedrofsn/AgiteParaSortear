@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,8 @@ public class SetupActivity extends Activity implements SeekBar.OnSeekBarChangeLi
     private TextView textViewMessage;
     private SeekBar seekBar;
     private TextView textViewOk;
+    private EditText editTextMin;
+    private EditText editTextMax;
 
     private int maxValue;
 
@@ -26,6 +29,8 @@ public class SetupActivity extends Activity implements SeekBar.OnSeekBarChangeLi
         textViewMessage = (TextView) findViewById(R.id.textViewMessage);
         textViewOk = (TextView) findViewById(R.id.textViewOk);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
+        editTextMin = (EditText) findViewById(R.id.editTextMin);
+        editTextMax = (EditText) findViewById(R.id.editTextMax);
     }
 
     @Override
@@ -68,15 +73,33 @@ public class SetupActivity extends Activity implements SeekBar.OnSeekBarChangeLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.textViewOk:
-                if (maxValue <= 0) {
-                    Toast.makeText(this, getString(R.string.alerta), Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent intent = new Intent(this, RaffleActivity.class);
-                    intent.putExtra(App.TAG_VALOR_LIMITE, maxValue);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                }
+                setupRaffle();
                 break;
         }
+    }
+
+    private void setupRaffle() {
+        String minString = UtilsFormulario.getStringFromEditText(editTextMin);
+        String maxString = UtilsFormulario.getStringFromEditText(editTextMax);
+
+        Sorteio sorteio = new Sorteio(maxValue);
+
+        if (isCaseLimits(minString, maxString)) {
+            sorteio = new Sorteio(minString, maxString);
+        }
+
+        if (sorteio.isValido()) {
+            Intent intent = new Intent(this, RaffleActivity.class);
+            intent.putExtra(Constantes.TAG_SORTEIO, sorteio);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+        } else {
+            Toast.makeText(this, getString(R.string.alerta), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean isCaseLimits(String minString, String maxString) {
+        return !Utils.isNullOrEmpty(minString) && !Utils.isNullOrEmpty(maxString);
     }
 }

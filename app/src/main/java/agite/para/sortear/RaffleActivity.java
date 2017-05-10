@@ -7,17 +7,27 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.annotation.IdRes;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.Random;
-
-public class RaffleActivity extends Activity implements ShakeDetector.ShakeListener {
+public class RaffleActivity extends Activity implements ShakeDetector.ShakeListener, View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
     private RelativeLayout relativeLayoutBackground;
+    private LinearLayout linearLayoutLimites;
     private TextView textViewResult;
+    private TextView textViewLimites;
+    private ImageView imageView;
+    private RadioGroup radioGroup;
+    private RadioButton radioButtonIncluso;
+    private RadioButton radioButtonNaoIncluso;
 
-    private int maxValue;
+    private Sorteio sorteio;
 
     private SensorManager mSensorManager;
     private Sensor accelerometer;
@@ -30,10 +40,30 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sorteio);
 
-        maxValue = getIntent().getIntExtra(App.TAG_VALOR_LIMITE, 1);
+        sorteio = (Sorteio) getIntent().getSerializableExtra(Constantes.TAG_SORTEIO);
+
+        if (Utils.isNullOrEmpty(sorteio)) {
+            finish();
+        }
 
         relativeLayoutBackground = (RelativeLayout) findViewById(R.id.relativeLayoutBackground);
+        linearLayoutLimites = (LinearLayout) findViewById(R.id.linearLayoutLimites);
         textViewResult = (TextView) findViewById(R.id.textViewResult);
+        textViewLimites = (TextView) findViewById(R.id.textViewLimites);
+        imageView = (ImageView) findViewById(R.id.imageView);
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        radioButtonIncluso = (RadioButton) findViewById(R.id.radioButtonIncluso);
+        radioButtonNaoIncluso = (RadioButton) findViewById(R.id.radioButtonNaoIncluso);
+
+        imageView.setOnClickListener(this);
+        radioGroup.setOnCheckedChangeListener(this);
+
+        if (sorteio.isLimitesAtivados()) {
+            UtilsFormulario.setText(textViewLimites, String.format(getString(R.string.sortear_entre_x_e_y), sorteio.getMin(), sorteio.getMax()));
+            linearLayoutLimites.setVisibility(View.VISIBLE);
+        } else {
+            linearLayoutLimites.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -55,13 +85,7 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
 
     @Override
     public void onShake(int countShakes) {
-        relativeLayoutBackground.setBackgroundResource(R.color.background_activity_sorteio_in_progress);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && vibrator != null && vibrator.hasVibrator()) {
-            vibrator.vibrate(400);
-        }
-
-        textViewResult.setText(String.valueOf(new Random().nextInt(maxValue + 1)));
+        sortear();
     }
 
     @Override
@@ -74,5 +98,34 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
     protected void onPause() {
         mSensorManager.unregisterListener(shakeDetector);
         super.onPause();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.imageView:
+                abrirMenuLateral();
+                break;
+        }
+    }
+
+    private void abrirMenuLateral() {
+        sortear();
+    }
+
+    private void sortear() {
+        relativeLayoutBackground.setBackgroundResource(R.color.background_activity_sorteio_in_progress);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && vibrator != null && vibrator.hasVibrator()) {
+            vibrator.vibrate(400);
+        }
+
+        UtilsFormulario.setText(textViewResult, sorteio.getSorteado());
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+        sorteio.setLimitesExclusivos(checkedId == radioButtonNaoIncluso.getId());
+        sortear();
     }
 }
