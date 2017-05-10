@@ -12,5 +12,7 @@
     <string name="or">Or</string>
     <string name="limites_inclusos">Bounds included</string>
     <string name="limites_nao_inclusos">Bounds not included</string>
+    <string name="repetir_numeros">Repeat numbers</string>
+    <string name="o_limite_de_numeros_possiveis_foi_atingido">The limit of possible numbers has been reached</string>
 
 </resources>

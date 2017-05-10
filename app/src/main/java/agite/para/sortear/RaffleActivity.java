@@ -9,14 +9,20 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.IdRes;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class RaffleActivity extends Activity implements ShakeDetector.ShakeListener, View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class RaffleActivity extends Activity implements ShakeDetector.ShakeListener, View.OnClickListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener {
 
     private RelativeLayout relativeLayoutBackground;
     private LinearLayout linearLayoutLimites;
@@ -26,6 +32,7 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
     private RadioGroup radioGroup;
     private RadioButton radioButtonIncluso;
     private RadioButton radioButtonNaoIncluso;
+    private CheckBox checkBox;
 
     private Sorteio sorteio;
 
@@ -34,6 +41,8 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
     private ShakeDetector shakeDetector;
 
     private Vibrator vibrator;
+    private List<Integer> listaSorteados;
+    private boolean isNumerosRepetidosPermitidos = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +63,11 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         radioButtonIncluso = (RadioButton) findViewById(R.id.radioButtonIncluso);
         radioButtonNaoIncluso = (RadioButton) findViewById(R.id.radioButtonNaoIncluso);
+        checkBox = (CheckBox) findViewById(R.id.checkBox);
 
         imageView.setOnClickListener(this);
         radioGroup.setOnCheckedChangeListener(this);
+        checkBox.setOnCheckedChangeListener(this);
 
         if (sorteio.isLimitesAtivados()) {
             UtilsFormulario.setText(textViewLimites, String.format(getString(R.string.sortear_entre_x_e_y), sorteio.getMin(), sorteio.getMax()));
@@ -64,6 +75,8 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
         } else {
             linearLayoutLimites.setVisibility(View.GONE);
         }
+
+        listaSorteados = new ArrayList<>();
     }
 
     @Override
@@ -120,12 +133,33 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
             vibrator.vibrate(400);
         }
 
-        UtilsFormulario.setText(textViewResult, sorteio.getSorteado());
+
+        try {
+            int sorteado = -1;
+            if (isNumerosRepetidosPermitidos) {
+                sorteado = sorteio.getSorteado();
+            } else {
+                sorteado = sorteio.getSorteado(listaSorteados);
+            }
+
+            UtilsFormulario.setText(textViewResult, sorteado);
+
+        } catch (QuantidadeMaximaExcpetion quantidadeMaximaExcpetion) {
+            Toast.makeText(this, quantidadeMaximaExcpetion.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
         sorteio.setLimitesExclusivos(checkedId == radioButtonNaoIncluso.getId());
+        listaSorteados.clear();
+        sortear();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        isNumerosRepetidosPermitidos = isChecked;
+        listaSorteados.clear();
         sortear();
     }
 }

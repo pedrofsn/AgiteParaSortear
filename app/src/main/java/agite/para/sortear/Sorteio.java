@@ -1,6 +1,7 @@
 package agite.para.sortear;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -23,6 +24,29 @@ public class Sorteio implements Serializable {
 
         this.min = Math.min(mMin, mMax);
         this.max = Math.max(mMin, mMax);
+    }
+
+    public int getSorteado(List<Integer> lista) throws QuantidadeMaximaExcpetion {
+        int sorteado = -1;
+        int listaTamanhoOriginal = lista.size();
+
+        if (isLimitesAtivados()) {
+            int quantidadeMaximaPossivelNaLista = isLimitesExclusivos() ? max - min : (max - min) + 1;
+
+            if (quantidadeMaximaPossivelNaLista == listaTamanhoOriginal) {
+                throw new QuantidadeMaximaExcpetion(App.getContext().getString(R.string.o_limite_de_numeros_possiveis_foi_atingido));
+            }
+        }
+
+        do {
+            sorteado = getSorteado();
+            if (!lista.contains(sorteado)) {
+                lista.add(sorteado);
+            }
+//TODO: quando muda de bounds included para bounds NOT included e fica tentando gerar, tá caindo em um looping infinito > tratar
+        } while (Utils.isNullOrEmpty(lista) || lista.size() == listaTamanhoOriginal);
+
+        return sorteado;
     }
 
     public int getSorteado() {

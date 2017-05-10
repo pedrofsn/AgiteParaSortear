@@ -41,35 +41,36 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/white" />
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:checkedButton="@+id/limitesInclusivos">
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
+            <RadioButton
+                android:id="@+id/radioButtonIncluso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checkedButton="@+id/limitesInclusivos">
+                android:checked="true"
+                android:text="@string/limites_inclusos"
+                android:textColor="@android:color/white" />
 
-                <RadioButton
-                    android:id="@+id/radioButtonIncluso"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/limites_inclusos"
-                    android:textColor="@android:color/white" />
+            <RadioButton
+                android:id="@+id/radioButtonNaoIncluso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/limites_nao_inclusos"
+                android:textColor="@android:color/white" />
 
-                <RadioButton
-                    android:id="@+id/radioButtonNaoIncluso"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/limites_nao_inclusos"
-                    android:textColor="@android:color/white" />
+        </RadioGroup>
 
-            </RadioGroup>
-
-        </LinearLayout>
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/repetir_numeros"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
