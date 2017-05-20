@@ -128,7 +128,7 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
         }
 
         try {
-            int sorteado = sorteio.getSorteado(permitirNumerosRepetidos, listaSorteados);
+            int sorteado = sorteio.getSorteado(permitirNumerosRepetidos);
             UtilsFormulario.setText(textViewResult, sorteado);
 
         } catch (QuantidadeMaximaException quantidadeMaximaException) {

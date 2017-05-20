@@ -13,12 +13,13 @@ public class Sorteio implements Serializable {
 
     private Integer min;
     private Integer max;
-    private boolean limitesExclusivos;
+    //    private boolean limitesExclusivos;
     private Random random = new Random();
-    private List<Integer> listaSorteados = new ArrayList<>();
+    private List<Integer> listaSorteados;
 
     public Sorteio(Integer max) {
         this.max = max;
+        this.listaSorteados = new ArrayList<>();
     }
 
     public Sorteio(String min, String max) {
@@ -27,52 +28,44 @@ public class Sorteio implements Serializable {
 
         this.min = Math.min(mMin, mMax);
         this.max = Math.max(mMin, mMax);
+
+        this.listaSorteados = new ArrayList<>();
     }
 
-    public int getSorteado() throws QuantidadeMaximaException {
-        int sorteado = Constantes.VALOR_INVALIDO;
-        int quantidadeSorteados = listaSorteados.size();
+    public int getSorteado(boolean permitirNumerosRepetidos) {
+        int sorteado;
 
-        if (hasLimiteMinimo()) {
-            int quantidadeMaximaPossivelNaLista = isLimitesExclusivos() ? max - min : (max - min) + 1;
-
-            if (quantidadeMaximaPossivelNaLista == listaTamanhoOriginal) {
-                throw new QuantidadeMaximaException(App.getContext().getString(R.string.o_limite_de_numeros_possiveis_foi_atingido));
+        if (permitirNumerosRepetidos) {
+            if (hasLimitesMinMax()) {
+                sorteado = getNumeroSorteadoComLimites();
+            } else {
+                sorteado = random.nextInt();
             }
-        }
-
-        do {
-            sorteado = getSorteado();
-            if (!lista.contains(sorteado)) {
-                lista.add(sorteado);
-            }
-
-            //TODO: quando muda de bounds included para bounds NOT included e fica tentando gerar, tá caindo em um looping infinito > tratar
-        } while (Utils.isNullOrEmpty(lista) || lista.size() == listaTamanhoOriginal);
-
-        return sorteado;
-    }
-
-    public int getSorteado(boolean permitirNumerosRepetidos, List<Integer> listaSorteados) {
-        int sorteado = 0;
-
-        if (hasLimiteMinimo()) {
-            int limite = !limitesExclusivos ? 1 : 0;
-
-            do {
-                sorteado = random.nextInt(max + limite);
-            } while (!isDentroDosLimites(sorteado));
-
         } else {
-            sorteado = random.nextInt(max);
+            if (hasLimitesMinMax()) {
+                sorteado = getNumeroSorteadoComLimites();
+                while (listaSorteados.contains(sorteado)) {
+                    sorteado = getNumeroSorteadoComLimites();
+                }
+            } else {
+                sorteado = random.nextInt();
+                while (listaSorteados.contains(sorteado)) {
+                    sorteado = random.nextInt();
+                }
+            }
         }
 
+        listaSorteados.add(sorteado);
         return sorteado;
     }
 
-    private boolean isDentroDosLimites(int sorteado) {
-        return limitesExclusivos ? isAlcanceLimitesExclusivos(sorteado) : isAlcanceLimitesInclusivos(sorteado);
+    private int getNumeroSorteadoComLimites() {
+        return min - new Random().nextInt(Math.abs(max - min));
     }
+
+//    private boolean isDentroDosLimites(int sorteado) {
+//        return limitesExclusivos ? isAlcanceLimitesExclusivos(sorteado) : isAlcanceLimitesInclusivos(sorteado);
+//    }
 
     private boolean isAlcanceLimitesInclusivos(int sorteado) {
         return sorteado >= min && sorteado <= max;
@@ -94,7 +87,7 @@ public class Sorteio implements Serializable {
         return !Utils.isNullOrEmpty(max) && max > 0;
     }
 
-    public boolean hasLimites() {
+    public boolean hasLimitesMinMax() {
         return hasLimiteMinimo() && hasLimiteMaximo();
     }
 
@@ -106,13 +99,13 @@ public class Sorteio implements Serializable {
         return !Utils.isNullOrEmpty(max);
     }
 
-    public boolean isLimitesExclusivos() {
-        return limitesExclusivos;
-    }
+//    public boolean isLimitesExclusivos() {
+//        return limitesExclusivos;
+//    }
 
-    public void setLimitesExclusivos(boolean limitesExclusivos) {
-        this.limitesExclusivos = limitesExclusivos;
-    }
+//    public void setLimitesExclusivos(boolean limitesExclusivos) {
+//        this.limitesExclusivos = limitesExclusivos;
+//    }
 
     public Integer getMin() {
         return min;
