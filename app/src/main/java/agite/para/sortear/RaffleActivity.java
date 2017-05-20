@@ -109,6 +109,7 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.imageView:
                 abrirMenuLateral();
