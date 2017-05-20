@@ -133,7 +133,6 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
             vibrator.vibrate(400);
         }
 
-
         try {
             int sorteado = -1;
             if (isNumerosRepetidosPermitidos) {
@@ -144,8 +143,8 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
 
             UtilsFormulario.setText(textViewResult, sorteado);
 
-        } catch (QuantidadeMaximaExcpetion quantidadeMaximaExcpetion) {
-            Toast.makeText(this, quantidadeMaximaExcpetion.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (QuantidadeMaximaException quantidadeMaximaException) {
+            Toast.makeText(this, quantidadeMaximaException.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -26,7 +26,7 @@ public class Sorteio implements Serializable {
         this.max = Math.max(mMin, mMax);
     }
 
-    public int getSorteado(List<Integer> lista) throws QuantidadeMaximaExcpetion {
+    public int getSorteado(List<Integer> lista) throws QuantidadeMaximaException {
         int sorteado = -1;
         int listaTamanhoOriginal = lista.size();
 
@@ -34,7 +34,7 @@ public class Sorteio implements Serializable {
             int quantidadeMaximaPossivelNaLista = isLimitesExclusivos() ? max - min : (max - min) + 1;
 
             if (quantidadeMaximaPossivelNaLista == listaTamanhoOriginal) {
-                throw new QuantidadeMaximaExcpetion(App.getContext().getString(R.string.o_limite_de_numeros_possiveis_foi_atingido));
+                throw new QuantidadeMaximaException(App.getContext().getString(R.string.o_limite_de_numeros_possiveis_foi_atingido));
             }
         }
 
