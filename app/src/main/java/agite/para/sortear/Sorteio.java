@@ -1,6 +1,7 @@
 package agite.para.sortear;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -13,6 +14,8 @@ public class Sorteio implements Serializable {
     private Integer min;
     private Integer max;
     private boolean limitesExclusivos;
+    private Random random = new Random();
+    private List<Integer> listaSorteados = new ArrayList<>();
 
     public Sorteio(Integer max) {
         this.max = max;
@@ -26,11 +29,11 @@ public class Sorteio implements Serializable {
         this.max = Math.max(mMin, mMax);
     }
 
-    public int getSorteado(List<Integer> lista) throws QuantidadeMaximaException {
-        int sorteado = -1;
-        int listaTamanhoOriginal = lista.size();
+    public int getSorteado() throws QuantidadeMaximaException {
+        int sorteado = Constantes.VALOR_INVALIDO;
+        int quantidadeSorteados = listaSorteados.size();
 
-        if (isLimitesAtivados()) {
+        if (hasLimiteMinimo()) {
             int quantidadeMaximaPossivelNaLista = isLimitesExclusivos() ? max - min : (max - min) + 1;
 
             if (quantidadeMaximaPossivelNaLista == listaTamanhoOriginal) {
@@ -43,17 +46,17 @@ public class Sorteio implements Serializable {
             if (!lista.contains(sorteado)) {
                 lista.add(sorteado);
             }
-//TODO: quando muda de bounds included para bounds NOT included e fica tentando gerar, tá caindo em um looping infinito > tratar
+
+            //TODO: quando muda de bounds included para bounds NOT included e fica tentando gerar, tá caindo em um looping infinito > tratar
         } while (Utils.isNullOrEmpty(lista) || lista.size() == listaTamanhoOriginal);
 
         return sorteado;
     }
 
-    public int getSorteado() {
-        Random random = new Random();
+    public int getSorteado(boolean permitirNumerosRepetidos, List<Integer> listaSorteados) {
         int sorteado = 0;
 
-        if (isLimitesAtivados()) {
+        if (hasLimiteMinimo()) {
             int limite = !limitesExclusivos ? 1 : 0;
 
             do {
@@ -80,7 +83,7 @@ public class Sorteio implements Serializable {
     }
 
     public boolean isValido() {
-        if (isLimitesAtivados()) {
+        if (hasLimiteMinimo()) {
             return max > min && (min + 1 < max);
         }
 
@@ -91,8 +94,16 @@ public class Sorteio implements Serializable {
         return !Utils.isNullOrEmpty(max) && max > 0;
     }
 
-    public boolean isLimitesAtivados() {
-        return !Utils.isNullOrEmpty(min) && !Utils.isNullOrEmpty(max);
+    public boolean hasLimites() {
+        return hasLimiteMinimo() && hasLimiteMaximo();
+    }
+
+    private boolean hasLimiteMinimo() {
+        return !Utils.isNullOrEmpty(min);
+    }
+
+    private boolean hasLimiteMaximo() {
+        return !Utils.isNullOrEmpty(max);
     }
 
     public boolean isLimitesExclusivos() {

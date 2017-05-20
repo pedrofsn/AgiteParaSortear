@@ -19,9 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class RaffleActivity extends Activity implements ShakeDetector.ShakeListener, View.OnClickListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener {
 
     private RelativeLayout relativeLayoutBackground;
@@ -41,8 +38,7 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
     private ShakeDetector shakeDetector;
 
     private Vibrator vibrator;
-    private List<Integer> listaSorteados;
-    private boolean isNumerosRepetidosPermitidos = true;
+    private boolean permitirNumerosRepetidos = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,14 +65,12 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
         radioGroup.setOnCheckedChangeListener(this);
         checkBox.setOnCheckedChangeListener(this);
 
-        if (sorteio.isLimitesAtivados()) {
+        if (sorteio.hasLimiteMinimo()) {
             UtilsFormulario.setText(textViewLimites, String.format(getString(R.string.sortear_entre_x_e_y), sorteio.getMin(), sorteio.getMax()));
             linearLayoutLimites.setVisibility(View.VISIBLE);
         } else {
             linearLayoutLimites.setVisibility(View.GONE);
         }
-
-        listaSorteados = new ArrayList<>();
     }
 
     @Override
@@ -134,13 +128,7 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
         }
 
         try {
-            int sorteado = -1;
-            if (isNumerosRepetidosPermitidos) {
-                sorteado = sorteio.getSorteado();
-            } else {
-                sorteado = sorteio.getSorteado(listaSorteados);
-            }
-
+            int sorteado = sorteio.getSorteado(permitirNumerosRepetidos, listaSorteados);
             UtilsFormulario.setText(textViewResult, sorteado);
 
         } catch (QuantidadeMaximaException quantidadeMaximaException) {
@@ -157,7 +145,7 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        isNumerosRepetidosPermitidos = isChecked;
+        permitirNumerosRepetidos = isChecked;
         listaSorteados.clear();
         sortear();
     }
