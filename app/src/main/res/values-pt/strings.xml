@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">Agite para Sortear</string>
-    <string name="sortear_um_numero_entre">Sortear um número entre 0 e %d</string>
-    <string name="sortear_entre_x_e_y" formatted="false">Sortear entre %d e %d</string>
+    <string name="sortear_um_numero_entre">Sortear um número de 0 a %d</string>
+    <string name="sortear_entre_x_e_y" formatted="false">Sortear de %d a %d</string>
     <string name="agite_para_sortear">Agite para sortear!</string>
     <string name="alerta">Por favor, escolha um valor igual ou maior que 1.</string>
     <string name="min">Min</string>
