@@ -1,4 +1,4 @@
-package agite.para.sortear;
+package agite.para.sortear.utils;
 
 import android.view.View;
 import android.widget.EditText;

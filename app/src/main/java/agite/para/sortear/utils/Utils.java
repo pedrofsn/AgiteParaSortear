@@ -1,10 +1,12 @@
-package agite.para.sortear;
+package agite.para.sortear.utils;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
 import java.util.List;
+
+import agite.para.sortear.App;
 
 /**
  * Created by pedrofsn on 09/05/2017.

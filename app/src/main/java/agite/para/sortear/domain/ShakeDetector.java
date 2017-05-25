@@ -1,4 +1,4 @@
-package agite.para.sortear;
+package agite.para.sortear.domain;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

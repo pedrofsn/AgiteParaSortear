@@ -1,4 +1,4 @@
-package agite.para.sortear;
+package agite.para.sortear.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,13 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SetupActivity extends Activity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
+import agite.para.sortear.R;
+import agite.para.sortear.model.Sorteio;
+import agite.para.sortear.utils.Constantes;
+import agite.para.sortear.utils.Utils;
+import agite.para.sortear.utils.UtilsFormulario;
+
+public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
 
     private TextView textViewMessage;
     private SeekBar seekBar;
@@ -89,7 +95,7 @@ public class SetupActivity extends Activity implements SeekBar.OnSeekBarChangeLi
         }
 
         if (sorteio.isValido()) {
-            Intent intent = new Intent(this, RaffleActivity.class);
+            Intent intent = new Intent(this, ActivitySorteio.class);
             intent.putExtra(Constantes.TAG_SORTEIO, sorteio);
             startActivity(intent);
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

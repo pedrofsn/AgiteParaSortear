@@ -1,4 +1,7 @@
-package agite.para.sortear;
+package agite.para.sortear.utils;
+
+import agite.para.sortear.App;
+import agite.para.sortear.R;
 
 /**
  * Created by pedrofsn on 09/05/2017.

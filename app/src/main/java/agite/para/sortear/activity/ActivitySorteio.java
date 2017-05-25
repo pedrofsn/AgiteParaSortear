@@ -1,4 +1,4 @@
-package agite.para.sortear;
+package agite.para.sortear.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,29 +7,34 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.annotation.IdRes;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class RaffleActivity extends Activity implements ShakeDetector.ShakeListener, View.OnClickListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener {
+import agite.para.sortear.R;
+import agite.para.sortear.adapter.AdapterRecyclerViewInteger;
+import agite.para.sortear.domain.OnSorteiroRealizado;
+import agite.para.sortear.domain.ShakeDetector;
+import agite.para.sortear.model.Sorteio;
+import agite.para.sortear.utils.Constantes;
+import agite.para.sortear.utils.Utils;
+import agite.para.sortear.utils.UtilsFormulario;
+
+public class ActivitySorteio extends Activity implements ShakeDetector.ShakeListener, View.OnClickListener, CompoundButton.OnCheckedChangeListener, OnSorteiroRealizado {
 
     private RelativeLayout relativeLayoutBackground;
-    private LinearLayout linearLayoutLimites;
     private TextView textViewResult;
     private TextView textViewLimites;
     private ImageView imageView;
-    private RadioGroup radioGroup;
-    private RadioButton radioButtonIncluso;
-    private RadioButton radioButtonNaoIncluso;
     private CheckBox checkBox;
+    private LinearLayout linearLayoutLimites;
+    private RecyclerView recyclerView;
 
     private Sorteio sorteio;
 
@@ -49,23 +54,22 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
 
         if (Utils.isNullOrEmpty(sorteio)) {
             finish();
+        } else {
+            sorteio.setCallback(this);
         }
 
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         relativeLayoutBackground = (RelativeLayout) findViewById(R.id.relativeLayoutBackground);
         linearLayoutLimites = (LinearLayout) findViewById(R.id.linearLayoutLimites);
         textViewResult = (TextView) findViewById(R.id.textViewResult);
         textViewLimites = (TextView) findViewById(R.id.textViewLimites);
         imageView = (ImageView) findViewById(R.id.imageView);
-        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        radioButtonIncluso = (RadioButton) findViewById(R.id.radioButtonIncluso);
-        radioButtonNaoIncluso = (RadioButton) findViewById(R.id.radioButtonNaoIncluso);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
 
         imageView.setOnClickListener(this);
-        radioGroup.setOnCheckedChangeListener(this);
         checkBox.setOnCheckedChangeListener(this);
 
-        if (sorteio.hasLimiteMinimo()) {
+        if (sorteio.hasLimitesMinMax()) {
             UtilsFormulario.setText(textViewLimites, String.format(getString(R.string.sortear_entre_x_e_y), sorteio.getMin(), sorteio.getMax()));
             linearLayoutLimites.setVisibility(View.VISIBLE);
         } else {
@@ -128,26 +132,25 @@ public class RaffleActivity extends Activity implements ShakeDetector.ShakeListe
             vibrator.vibrate(400);
         }
 
-        try {
-            int sorteado = sorteio.getSorteado(permitirNumerosRepetidos);
-            UtilsFormulario.setText(textViewResult, sorteado);
+        int sorteado = sorteio.getSorteado(permitirNumerosRepetidos);
+        UtilsFormulario.setText(textViewResult, sorteado);
 
-        } catch (QuantidadeMaximaException quantidadeMaximaException) {
-            Toast.makeText(this, quantidadeMaximaException.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-        sorteio.setLimitesExclusivos(checkedId == radioButtonNaoIncluso.getId());
-        listaSorteados.clear();
-        sortear();
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         permitirNumerosRepetidos = isChecked;
-        listaSorteados.clear();
+        sorteio.getListaSorteados().clear();
         sortear();
+    }
+
+    @Override
+    public void onNumeroSorteado() {
+        AdapterRecyclerViewInteger adapter = new AdapterRecyclerViewInteger(sorteio.getListaSorteados());
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setFocusable(false);
+        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
     }
 }
