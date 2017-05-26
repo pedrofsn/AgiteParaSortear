@@ -2,6 +2,7 @@ package agite.para.sortear.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -48,13 +49,13 @@ public class Sorteio implements Serializable {
         } else {
             if (hasLimitesMinMax()) {
                 sorteado = getNumeroSorteadoComLimites();
-                while (listaSorteados.contains(sorteado) && isTodasPossibilidadesAtingidas(listaSorteados)) {
+                while (listaSorteados.contains(sorteado) && isTodasPossibilidadesAtingidas()) {
                     sorteado = getNumeroSorteadoComLimites();
                 }
 
             } else if (hasLimiteMaximo()) {
                 sorteado = random.nextInt(max + 1);
-                while (listaSorteados.contains(sorteado) && isTodasPossibilidadesAtingidas(listaSorteados)) {
+                while (listaSorteados.contains(sorteado) && isTodasPossibilidadesAtingidas()) {
                     sorteado = random.nextInt(max + 1);
                 }
             }
@@ -69,17 +70,14 @@ public class Sorteio implements Serializable {
         return sorteado;
     }
 
-    private boolean isTodasPossibilidadesAtingidas(List<Integer> list) {
-        if (!Utils.isNullOrEmpty(list)) {
-            int temp = max;
-            while (list.contains(temp)) {
-                temp = temp - 1;
-
-                if ((!Utils.isNullOrEmpty(min) && max.intValue() == min.intValue()) || (null == min && 0 == max)) {
-                    Utils.log("estourou!");
-                    return true;
-                }
+    private boolean isTodasPossibilidadesAtingidas() {
+        if (!Utils.isNullOrEmpty(listaSorteados)) {
+            List<Integer> valoresPossiveis = new ArrayList<>();
+            for (int i = min; i <= max; i++) {
+                valoresPossiveis.add(i);
             }
+
+            return !Collections.disjoint(listaSorteados, valoresPossiveis);
         }
         return false;
     }
