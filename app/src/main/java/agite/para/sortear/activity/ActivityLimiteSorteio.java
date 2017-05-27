@@ -43,6 +43,7 @@ public class ActivityLimiteSorteio extends ActivityGeneric implements SeekBar.On
     public void afterOnCreate() {
         super.afterOnCreate();
         getWindow().getAttributes().windowAnimations = R.style.AnimationFade;
+        UtilsFormulario.setText(textViewOk, getString(android.R.string.ok));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package agite.para.sortear.utils;
 
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -54,6 +55,10 @@ public class UtilsFormulario {
                 } else if (object instanceof Double) {
                     resultado = String.valueOf(object);
                 }
+            }
+
+            if (Utils.isApiMin16()) {
+                view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
             }
 
             view.setText(resultado);

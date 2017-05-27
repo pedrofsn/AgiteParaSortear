@@ -14,6 +14,8 @@ import agite.para.sortear.App;
 
 public class Utils {
 
+    private static final int SDK_VERSION = android.os.Build.VERSION.SDK_INT;
+
     public static boolean isNullOrEmpty(Object o) {
         if (o != null) {
             if (o instanceof String) {
@@ -34,6 +36,10 @@ public class Utils {
         if (message != null && isRunningOnDebugMode(App.getContext())) {
             Log.e(Constantes.APP_NAME, message);
         }
+    }
+
+    public static boolean isApiMin16() {
+        return SDK_VERSION >= android.os.Build.VERSION_CODES.JELLY_BEAN;
     }
 
 }

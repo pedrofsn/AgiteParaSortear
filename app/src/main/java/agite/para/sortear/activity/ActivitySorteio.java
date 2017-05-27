@@ -79,6 +79,8 @@ public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.Sh
         } else {
             linearLayoutLimites.setVisibility(View.GONE);
         }
+
+        UtilsFormulario.setText(textViewResult, getString(R.string.agite_para_sortear));
     }
 
     @Override
