@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,7 +30,7 @@ public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.Sh
     private RelativeLayout relativeLayoutBackground;
     private TextView textViewResult;
     private TextView textViewLimites;
-    private ImageView imageView;
+    private ImageButton imageButton;
     private CheckBox checkBox;
     private LinearLayout linearLayoutLimites;
     private RecyclerView recyclerView;
@@ -57,7 +57,7 @@ public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.Sh
         linearLayoutLimites = (LinearLayout) findViewById(R.id.linearLayoutLimites);
         textViewResult = (TextView) findViewById(R.id.textViewResult);
         textViewLimites = (TextView) findViewById(R.id.textViewLimites);
-        imageView = (ImageView) findViewById(R.id.imageView);
+        imageButton = (ImageButton) findViewById(R.id.imageButton);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
     }
 
@@ -70,7 +70,7 @@ public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.Sh
             sorteio.setCallback(this);
         }
 
-        imageView.setOnClickListener(this);
+        imageButton.setOnClickListener(this);
         checkBox.setOnCheckedChangeListener(this);
 
         if (sorteio.hasLimitesMinMax()) {
@@ -118,14 +118,10 @@ public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.Sh
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.imageView:
-                abrirMenuLateral();
+            case R.id.imageButton:
+                sortear();
                 break;
         }
-    }
-
-    private void abrirMenuLateral() {
-        sortear();
     }
 
     private void sortear() {

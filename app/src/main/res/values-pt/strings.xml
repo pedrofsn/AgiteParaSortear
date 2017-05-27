@@ -12,5 +12,6 @@
     <string name="or">Ou</string>
     <string name="repetir_numeros">Repetir números</string>
     <string name="todos_os_numeros_possiveis_foram_sorteados">Todos os valores possíveis foram sorteados</string>
+    <string name="button_for_generate_next_random">Botão pra gerar o próximo valor aleatório</string>
 
 </resources>

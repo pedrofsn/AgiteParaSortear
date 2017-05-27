@@ -8,12 +8,14 @@
     android:padding="@dimen/margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <ImageButton
+        android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/button_for_generate_next_random"
         android:padding="10dp"
         android:src="@android:drawable/ic_dialog_info" />
 
