@@ -23,8 +23,4 @@ public class AdapterRecyclerViewCustom<VH extends RecyclerView.ViewHolder> exten
         return 0;
     }
 
-    public void update() {
-        this.notifyDataSetChanged();
-    }
-
 }

@@ -13,5 +13,5 @@ public class Constantes {
 
     public static final String STRING_VAZIA = "";
     public static final String TAG_SORTEIO = "sorteio";
-    public static final int VALOR_INVALIDO = -1;
+
 }

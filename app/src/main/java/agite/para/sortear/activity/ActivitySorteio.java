@@ -101,7 +101,7 @@ public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.Sh
     }
 
     @Override
-    public void onShake(int countShakes) {
+    public void onShake() {
         sortear();
     }
 

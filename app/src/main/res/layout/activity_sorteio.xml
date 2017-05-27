@@ -4,7 +4,7 @@
     android:id="@+id/relativeLayoutBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_activity_sorteio_start"
+    android:background="@color/vermelho"
     android:padding="@dimen/margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

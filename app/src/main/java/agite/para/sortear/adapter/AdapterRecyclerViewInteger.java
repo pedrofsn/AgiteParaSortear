@@ -32,7 +32,7 @@ public class AdapterRecyclerViewInteger extends AdapterRecyclerViewCustom<ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolderInteger holder, final int position) {
-        holder.popular(lista.get(position));
+        holder.popular(getItem(position));
     }
 
     @Override

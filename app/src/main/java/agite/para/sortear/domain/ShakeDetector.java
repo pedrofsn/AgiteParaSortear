@@ -62,13 +62,13 @@ public class ShakeDetector implements SensorEventListener {
                 mShakeTimestamp = now;
                 mShakeCount++;
 
-                mListener.onShake(mShakeCount);
+                mListener.onShake();
             }
         }
     }
 
     public interface ShakeListener {
-        void onShake(int countShakes);
+        void onShake();
     }
 
 }
