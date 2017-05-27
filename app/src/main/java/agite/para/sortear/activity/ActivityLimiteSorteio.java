@@ -1,6 +1,5 @@
 package agite.para.sortear.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,12 +9,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import agite.para.sortear.R;
+import agite.para.sortear.domain.ActivityGeneric;
 import agite.para.sortear.model.Sorteio;
 import agite.para.sortear.utils.Constantes;
 import agite.para.sortear.utils.Utils;
 import agite.para.sortear.utils.UtilsFormulario;
 
-public class ActivityLimiteSorteio extends Activity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
+public class ActivityLimiteSorteio extends ActivityGeneric implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
 
     private TextView textViewMessage;
     private SeekBar seekBar;

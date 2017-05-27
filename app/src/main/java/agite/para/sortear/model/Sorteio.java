@@ -2,12 +2,10 @@ package agite.para.sortear.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import agite.para.sortear.domain.OnSorteiroRealizado;
-import agite.para.sortear.utils.Constantes;
 import agite.para.sortear.utils.RandomNumberGenerator;
 import agite.para.sortear.utils.Utils;
 
@@ -22,10 +20,12 @@ public class Sorteio implements Serializable {
     private OnSorteiroRealizado callback;
     private Random random = new Random();
     private List<Integer> listaSorteados = new ArrayList<>();
+    private List<Integer> valoresPossiveis;
     private RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
 
     public Sorteio(Integer max) {
         this.max = max;
+        popularValoresPossiveis();
     }
 
     public Sorteio(String min, String max) {
@@ -34,10 +34,24 @@ public class Sorteio implements Serializable {
 
         this.min = Math.min(mMin, mMax);
         this.max = Math.max(mMin, mMax);
+
+        popularValoresPossiveis();
     }
 
-    public int getSorteado(boolean permitirNumerosRepetidos) {
-        int sorteado = Constantes.VALOR_INVALIDO;
+    private void popularValoresPossiveis() {
+        valoresPossiveis = new ArrayList<>();
+
+        if (Utils.isNullOrEmpty(min)) {
+            min = 0;
+        }
+
+        for (int i = min; i <= max; i++) {
+            valoresPossiveis.add(i);
+        }
+    }
+
+    public Integer getSorteado(boolean permitirNumerosRepetidos) {
+        Integer sorteado = null;
 
         if (permitirNumerosRepetidos) {
             if (hasLimitesMinMax()) {
@@ -47,16 +61,18 @@ public class Sorteio implements Serializable {
                 sorteado = random.nextInt(max + 1);
             }
         } else {
-            if (hasLimitesMinMax()) {
-                sorteado = getNumeroSorteadoComLimites();
-                while (listaSorteados.contains(sorteado) && isTodasPossibilidadesAtingidas()) {
+            if (!isTodasPossibilidadesAtingidas()) {
+                if (hasLimitesMinMax()) {
                     sorteado = getNumeroSorteadoComLimites();
-                }
+                    while (listaSorteados.contains(sorteado)) {
+                        sorteado = getNumeroSorteadoComLimites();
+                    }
 
-            } else if (hasLimiteMaximo()) {
-                sorteado = random.nextInt(max + 1);
-                while (listaSorteados.contains(sorteado) && isTodasPossibilidadesAtingidas()) {
+                } else if (hasLimiteMaximo()) {
                     sorteado = random.nextInt(max + 1);
+                    while (listaSorteados.contains(sorteado)) {
+                        sorteado = random.nextInt(max + 1);
+                    }
                 }
             }
         }
@@ -70,16 +86,10 @@ public class Sorteio implements Serializable {
         return sorteado;
     }
 
-    private boolean isTodasPossibilidadesAtingidas() {
-        if (!Utils.isNullOrEmpty(listaSorteados)) {
-            List<Integer> valoresPossiveis = new ArrayList<>();
-            for (int i = min; i <= max; i++) {
-                valoresPossiveis.add(i);
-            }
-
-            return !Collections.disjoint(listaSorteados, valoresPossiveis);
-        }
-        return false;
+    public boolean isTodasPossibilidadesAtingidas() {
+        List<Integer> temp = valoresPossiveis;
+        temp.removeAll(listaSorteados);
+        return temp.size() == 0;
     }
 
     private int getNumeroSorteadoComLimites() {
@@ -114,24 +124,8 @@ public class Sorteio implements Serializable {
         return min;
     }
 
-    public void setMin(Integer min) {
-        this.min = min;
-    }
-
     public Integer getMax() {
         return max;
-    }
-
-    public void setMax(Integer max) {
-        this.max = max;
-    }
-
-    public Random getRandom() {
-        return random;
-    }
-
-    public void setRandom(Random random) {
-        this.random = random;
     }
 
     public List<Integer> getListaSorteados() {

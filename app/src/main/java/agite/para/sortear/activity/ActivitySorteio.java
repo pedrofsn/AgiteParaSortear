@@ -1,6 +1,5 @@
 package agite.para.sortear.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -19,6 +18,7 @@ import android.widget.TextView;
 
 import agite.para.sortear.R;
 import agite.para.sortear.adapter.AdapterRecyclerViewInteger;
+import agite.para.sortear.domain.ActivityGeneric;
 import agite.para.sortear.domain.OnSorteiroRealizado;
 import agite.para.sortear.domain.ShakeDetector;
 import agite.para.sortear.model.Sorteio;
@@ -26,7 +26,7 @@ import agite.para.sortear.utils.Constantes;
 import agite.para.sortear.utils.Utils;
 import agite.para.sortear.utils.UtilsFormulario;
 
-public class ActivitySorteio extends Activity implements ShakeDetector.ShakeListener, View.OnClickListener, CompoundButton.OnCheckedChangeListener, OnSorteiroRealizado {
+public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.ShakeListener, View.OnClickListener, CompoundButton.OnCheckedChangeListener, OnSorteiroRealizado {
 
     private RelativeLayout relativeLayoutBackground;
     private TextView textViewResult;
@@ -132,9 +132,14 @@ public class ActivitySorteio extends Activity implements ShakeDetector.ShakeList
             vibrator.vibrate(400);
         }
 
-        int sorteado = sorteio.getSorteado(permitirNumerosRepetidos);
-        UtilsFormulario.setText(textViewResult, sorteado);
-
+        Integer sorteado = sorteio.getSorteado(permitirNumerosRepetidos);
+        if (!Utils.isNullOrEmpty(sorteado)) {
+            UtilsFormulario.setText(textViewResult, sorteado);
+        } else {
+            if (sorteio.isTodasPossibilidadesAtingidas()) {
+                getSnackBarComOk(getString(R.string.todos_os_numeros_possiveis_foram_sorteados));
+            }
+        }
     }
 
     @Override
