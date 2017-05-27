@@ -1,5 +1,7 @@
 package agite.para.sortear.domain;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,7 +10,23 @@ import android.view.View;
  * Created by aluno on 27/05/17.
  */
 
-public class ActivityGeneric extends AppCompatActivity {
+public abstract class ActivityGeneric extends AppCompatActivity {
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getLayout());
+        initView();
+        afterOnCreate();
+    }
+
+    public abstract int getLayout();
+
+    public void initView() {
+    }
+
+    public void afterOnCreate() {
+    }
 
     public Snackbar getSnackBarComOk(String mensagem) {
         final Snackbar snackbar = getSnackBar(mensagem, Snackbar.LENGTH_LONG);

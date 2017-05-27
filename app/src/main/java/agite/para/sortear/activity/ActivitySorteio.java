@@ -4,7 +4,6 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,18 +45,13 @@ public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.Sh
     private boolean permitirNumerosRepetidos = true;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sorteio);
+    public int getLayout() {
+        return R.layout.activity_sorteio;
+    }
 
-        sorteio = (Sorteio) getIntent().getSerializableExtra(Constantes.TAG_SORTEIO);
-
-        if (Utils.isNullOrEmpty(sorteio)) {
-            finish();
-        } else {
-            sorteio.setCallback(this);
-        }
-
+    @Override
+    public void initView() {
+        super.initView();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         relativeLayoutBackground = (RelativeLayout) findViewById(R.id.relativeLayoutBackground);
         linearLayoutLimites = (LinearLayout) findViewById(R.id.linearLayoutLimites);
@@ -65,6 +59,16 @@ public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.Sh
         textViewLimites = (TextView) findViewById(R.id.textViewLimites);
         imageView = (ImageView) findViewById(R.id.imageView);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
+    }
+
+    @Override
+    public void afterOnCreate() {
+        super.afterOnCreate();
+        if (Utils.isNullOrEmpty(sorteio = (Sorteio) getIntent().getSerializableExtra(Constantes.TAG_SORTEIO))) {
+            finish();
+        } else {
+            sorteio.setCallback(this);
+        }
 
         imageView.setOnClickListener(this);
         checkBox.setOnCheckedChangeListener(this);
@@ -113,7 +117,6 @@ public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.Sh
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.imageView:
                 abrirMenuLateral();

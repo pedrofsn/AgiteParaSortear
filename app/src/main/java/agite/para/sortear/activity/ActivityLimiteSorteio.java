@@ -1,7 +1,6 @@
 package agite.para.sortear.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -26,17 +25,24 @@ public class ActivityLimiteSorteio extends ActivityGeneric implements SeekBar.On
     private int maxValue;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_limite_sorteio);
+    public int getLayout() {
+        return R.layout.activity_limite_sorteio;
+    }
 
-        getWindow().getAttributes().windowAnimations = R.style.AnimationFade;
-
+    @Override
+    public void initView() {
+        super.initView();
         textViewMessage = (TextView) findViewById(R.id.textViewMessage);
         textViewOk = (TextView) findViewById(R.id.textViewOk);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         editTextMin = (EditText) findViewById(R.id.editTextMin);
         editTextMax = (EditText) findViewById(R.id.editTextMax);
+    }
+
+    @Override
+    public void afterOnCreate() {
+        super.afterOnCreate();
+        getWindow().getAttributes().windowAnimations = R.style.AnimationFade;
     }
 
     @Override
