@@ -3,7 +3,7 @@
 
     <string name="app_name">Shake Raffle</string>
     <string name="sortear_um_numero_entre">Generate a random number from 0 to %d</string>
-    <string name="sortear_entre_x_e_y" formatted="false">Ranges from %d to %d</string>
+    <string name="sortear_entre_x_e_y">Ranges from %1$d to %2$d</string>
     <string name="agite_para_sortear">Shake Raffle!</string>
     <string name="alerta">Please select a value equal to or greater than 1.</string>
     <string name="min">Min</string>
