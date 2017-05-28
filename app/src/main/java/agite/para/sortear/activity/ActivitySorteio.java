@@ -43,6 +43,7 @@ public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.Sh
 
     private Vibrator vibrator;
     private boolean permitirNumerosRepetidos = true;
+    private AdView mAdView;
 
     @Override
     public int getLayout() {
@@ -59,6 +60,7 @@ public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.Sh
         textViewLimites = (TextView) findViewById(R.id.textViewLimites);
         imageButton = (ImageButton) findViewById(R.id.imageButton);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
+        mAdView = (AdView) findViewById(R.id.adView);
     }
 
     @Override
@@ -69,6 +71,9 @@ public class ActivitySorteio extends ActivityGeneric implements ShakeDetector.Sh
         } else {
             sorteio.setCallback(this);
         }
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         imageButton.setOnClickListener(this);
         checkBox.setOnCheckedChangeListener(this);
